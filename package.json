@@ -1,0 +1,17 @@
+{
+  "name": "twosixonesix",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "mongoose": "^5.2.4",
+    "prettier": "^1.13.7",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "stream-to-async-iterator": "^0.2.0"
+  },
+  "dependencies": {}
+}
