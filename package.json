@@ -7,11 +7,16 @@
     "babel-cli": "^6.26.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
-    "mongoose": "^5.2.4",
+    "iter-tools": "^5.0.4",
+    "nodemon": "^1.18.3",
     "prettier": "^1.13.7",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "stream-to-async-iterator": "^0.2.0"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "scripts": {
+    "demo": "babel-node demo.js",
+    "demo:dev": "nodemon -x babel-node demo.js"
+  }
 }
