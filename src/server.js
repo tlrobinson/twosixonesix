@@ -8,12 +8,12 @@ const DEFAULT_HEADERS_CHUNKED = {
   "Transfer-Encoding": "chunked",
 };
 
-function start(app, { port = 3000 } = {}) {
-  const requestHandler = async (request, response) => {
+function server(app) {
+  const handler = async (request, response) => {
     try {
       const result = await app(request);
       // STATUS
-      const status = result.state || 200;
+      const status = result.status || 200;
       // HEADERS
       const headers = Object.assign({}, DEFAULT_HEADERS);
       if (result.body && result.body[Symbol.asyncIterator]) {
@@ -39,15 +39,22 @@ function start(app, { port = 3000 } = {}) {
     }
   };
 
-  const server = http.createServer(requestHandler);
+  const listen = ({ port = 3000 } = {}) => {
+    const server = http.createServer(handler);
+    return new Promise((resolve, reject) => {
+      server.listen(port, err => {
+        if (err) {
+          console.log(`Error starting server`, err);
+          reject(err);
+        } else {
+          console.log(`Listening on ${port}`);
+          resolve();
+        }
+      });
+    });
+  };
 
-  server.listen(port, err => {
-    if (err) {
-      console.log(`Error starting server`, err);
-    } else {
-      console.log(`Listening on ${port}`);
-    }
-  });
+  return { app, handler, listen };
 }
 
-module.exports = start;
+module.exports = server;

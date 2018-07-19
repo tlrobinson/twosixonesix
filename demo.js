@@ -1,7 +1,7 @@
 #!/usr/bin/env ./node_modules/.bin/babel-node
 
 const React = require("react");
-const { get, routes } = require(".");
+const { get, routes, listen } = require(".");
 
 get("/", () => (
   <ul>
@@ -37,6 +37,8 @@ const Cat = {
 
 get("/promise+json", req => Cat.find());
 
+get("/redirect", () => ({ status: 301, headers: { Location: "/html" } }));
+
 // stream towel.blinkenlights.nl because why not
 const net = require("net");
 
@@ -68,3 +70,5 @@ if (!Readable.prototype[Symbol.asyncIterator]) {
     return new StreamToAsyncIterator(this);
   };
 }
+
+listen();
