@@ -53,15 +53,6 @@ async function* blinkenlightsHTMLStream() {
     yield `<script>document.body.innerHTML = ""</script><pre>${chunk}</pre>`;
   }
 }
-
-// // iter-tools version:
-// const { asyncMap } = require("iter-tools");
-// function blinkenlightsHTMLStream() {
-//   return asyncMap(
-//     chunk => `<script>document.body.innerHTML = ""</script><pre>${chunk}</pre>`,
-//   )(blinkenlights());
-// }
-
 // polyfill async iterator support into Streams for Node <10
 const StreamToAsyncIterator = require("stream-to-async-iterator").default;
 const { Readable } = require("stream");
