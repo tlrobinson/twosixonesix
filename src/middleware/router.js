@@ -1,9 +1,14 @@
+const url = require("url");
+
 function router() {
   function handle(req) {
     const method = req.method.toUpperCase();
+    const { pathname, query } = url.parse(req.url, true);
+    req.query = query;
+    // req = Object.assign(Object.create(req), { query });
     for (const route of self.routes) {
       if (
-        route.path === req.url &&
+        route.path === pathname &&
         (route.method === "*" || route.method === method)
       ) {
         return route.handle(req);
