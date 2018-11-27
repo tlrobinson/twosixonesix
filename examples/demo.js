@@ -1,12 +1,25 @@
 #!/usr/bin/env ./node_modules/.bin/babel-node
 
 const React = require("react");
-const { get, route, routes, listen, client, proxy } = require("..");
+const {
+  get,
+  route,
+  use,
+  express,
+  routes,
+  listen,
+  client,
+  proxy
+} = require("..");
+
+const logger = require("morgan")("combined");
+
+use(express(logger));
 
 get("/", () => (
   <ul>
     {routes.map(({ path }) => (
-      <li>
+      <li key={path}>
         <a href={path}>{path}</a>
       </li>
     ))}
@@ -55,10 +68,11 @@ async function* blinkenlightsHTMLStream() {
     yield `<script>document.body.innerHTML = ""</script><pre>${chunk}</pre>`;
   }
 }
+
 // polyfill async iterator support into Streams for Node <10
-const StreamToAsyncIterator = require("stream-to-async-iterator").default;
 const { Readable } = require("stream");
 if (!Readable.prototype[Symbol.asyncIterator]) {
+  const StreamToAsyncIterator = require("stream-to-async-iterator").default;
   Readable.prototype[Symbol.asyncIterator] = function() {
     return new StreamToAsyncIterator(this);
   };

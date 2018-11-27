@@ -4,7 +4,6 @@ const u = require("url");
 function proxy(remoteUrl, { without } = {}) {
   let { host } = u.parse(remoteUrl);
   return async ({ method, url, headers, body }) => {
-    console.log(method, url, headers);
     if (host) {
       headers = { ...headers, host };
     }
