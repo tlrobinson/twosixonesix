@@ -1,17 +1,29 @@
 const http = require("http");
 
-const DEFAULT_HEADERS = {
-  "Content-Type": "text/html; charset=utf-8",
-};
+function normalizeHeaders(headers) {
+  const normalized = {};
+  for (const [key, value] of Object.entries(headers)) {
+    const name = key
+      .split("-")
+      .map(c => c.slice(0, 1).toUpperCase() + c.slice(1).toLowerCase())
+      .join("-");
+    normalized[name] = value;
+  }
+  return normalized;
+}
 
-const DEFAULT_HEADERS_CHUNKED = {
-  "Transfer-Encoding": "chunked",
-};
+const DEFAULT_HEADERS = normalizeHeaders({
+  "Content-Type": "text/html; charset=utf-8"
+});
+
+const DEFAULT_HEADERS_CHUNKED = normalizeHeaders({
+  "Transfer-Encoding": "chunked"
+});
 
 function server(app) {
   const handler = async (request, response) => {
     try {
-      const result = await app(request);
+      const result = await app({ ...request, body: request });
       // STATUS
       const status = result.status || 200;
       // HEADERS
@@ -20,7 +32,7 @@ function server(app) {
         Object.assign(headers, DEFAULT_HEADERS_CHUNKED);
       }
       if (result.headers) {
-        Object.assign(headers, result.headers);
+        Object.assign(headers, normalizeHeaders(result.headers));
       }
       // BODY
       const body = result.body;

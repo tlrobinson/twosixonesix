@@ -1,7 +1,7 @@
 #!/usr/bin/env ./node_modules/.bin/babel-node
 
 const React = require("react");
-const { get, routes, listen } = require(".");
+const { get, route, routes, listen, client, proxy } = require("..");
 
 get("/", () => (
   <ul>
@@ -23,13 +23,15 @@ get("/jsx", () => (
 
 get("/json", () => ({ hello: "world" }));
 
+route("*", "/proxy(.*)", proxy("http://localhost:3000", { without: "/proxy" }));
+
 // e.x. return a promise directly from a database query
 
 // fake it so you don't need mongo installed
 const Cat = {
   async find() {
     return [{ name: "garfield" }, { name: "quinnie" }];
-  },
+  }
 };
 // const mongoose = require("mongoose");
 // mongoose.connect("mongodb://localhost/test");

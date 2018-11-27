@@ -1,4 +1,5 @@
 const url = require("url");
+const pathToRegexp = require("path-to-regexp");
 
 function router() {
   function handle(req) {
@@ -8,7 +9,8 @@ function router() {
     // req = Object.assign(Object.create(req), { query });
     for (const route of self.routes) {
       if (
-        route.path === pathname &&
+        // route.path === pathname &&
+        route.re.test(pathname) &&
         (route.method === "*" || route.method === method)
       ) {
         return route.handle(req);
@@ -25,10 +27,16 @@ function router() {
     while (rest.length > 0) {
       handler = rest.pop()(handler);
     }
+
+    var keys = [];
+    var re = pathToRegexp(path, keys);
+
     self.routes.push({
       method: method.toUpperCase(),
       path: path,
-      handle: handler,
+      re: re,
+      keys: keys,
+      handle: handler
     });
   }
 

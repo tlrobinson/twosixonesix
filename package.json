@@ -14,9 +14,15 @@
     "react-dom": "^16.4.1",
     "stream-to-async-iterator": "^0.2.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "isomorphic-fetch": "^2.2.1",
+    "morgan": "^1.9.1",
+    "path-to-regexp": "^2.4.0"
+  },
   "scripts": {
-    "demo": "babel-node demo.js",
-    "demo:dev": "nodemon -x babel-node demo.js"
+    "demo": "babel-node examples/demo.js",
+    "demo:dev": "nodemon -x babel-node examples/demo.js"
   }
 }

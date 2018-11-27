@@ -13,3 +13,7 @@ Live Demo:
 - https://runkit.com/tlrobinson/twosixonesix-demo
 
 Inspired by Sinatra/Rack, JSGI/Jack, Mach, Express, etc.
+
+TODO:
+
+- duplicate headers?

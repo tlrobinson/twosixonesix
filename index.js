@@ -2,6 +2,8 @@ const fs = require("fs");
 const path = require("path");
 
 const server = require("./src/server");
+const client = require("./src/client");
+const proxy = require("./src/proxy");
 
 const middleware = {};
 for (const file of fs.readdirSync(path.join(__dirname, "src", "middleware"))) {
@@ -9,7 +11,7 @@ for (const file of fs.readdirSync(path.join(__dirname, "src", "middleware"))) {
   middleware[name] = require("./src/middleware/" + file);
 }
 
-Object.assign(module.exports, middleware, { server });
+Object.assign(module.exports, middleware, { server, client, proxy });
 
 // create a default instance for convienence
 const app = middleware.router();
